@@ -40,17 +40,29 @@ button:hover{background:#ff5252}
 let score = 0;
 let current = 0;
 
-// Bisaya questions about Philippine culture
+// 20 Bisaya questions about Filipino culture
 let questions = [
  {q:"Unsa ang national language sa Pilipinas?",options:["Filipino","English","Bisaya","Ilocano"],answer:"Filipino"},
  {q:"Unsa ang tawag sa pista sa Cebu?",options:["Ati-Atihan","Sinulog","MassKara","Pahiyas"],answer:"Sinulog"},
- {q:"Kinsa ang bayani sa Pilipinas nga nag sulat sa Noli Me Tangere?",options:["Bonifacio","Rizal","Aguinaldo","Lapu-Lapu"],answer:"Rizal"},
- {q:"Unsa ang tradisyon kung mag bless sa kamot sa tigulang?",options:["Mano","Beso","Saludo","Apo"],answer:"Mano"},
- {q:"Unsa ang tawag sa balay nga kawayan ug nipa?",options:["Bahay Kubo","Bungalow","Villa","Apartment"],answer:"Bahay Kubo"}
+ {q:"Kinsa ang bayani nga nagsulat sa Noli Me Tangere?",options:["Bonifacio","Rizal","Aguinaldo","Lapu-Lapu"],answer:"Rizal"},
+ {q:"Unsa ang tawag sa tradisyon nga pag-ampo ug pagpa-bless sa kamot sa tigulang?",options:["Mano","Beso","Saludo","Apo"],answer:"Mano"},
+ {q:"Unsa ang balay nga tradisyonal nga kawayan ug nipa?",options:["Bahay Kubo","Bungalow","Villa","Apartment"],answer:"Bahay Kubo"},
+ {q:"Unsa ang kilalang sayaw sa Negros nga festival?",options:["Sinulog","Ati-Atihan","MassKara","Pahiyas"],answer:"MassKara"},
+ {q:"Kinsa ang unang presidente sa Pilipinas?",options:["Rizal","Bonifacio","Aguinaldo","Lapu-Lapu"],answer:"Aguinaldo"},
+ {q:"Unsa ang tawag sa tradisyon sa pagdaug sa pista pinaagi sa dekorasyon sa mga balay?",options:["Pahiyas","Sinulog","Ati-Atihan","MassKara"],answer:"Pahiyas"},
+ {q:"Unsa ang bayani nga nakig-away sa Mactan?",options:["Rizal","Bonifacio","Aguinaldo","Lapu-Lapu"],answer:"Lapu-Lapu"},
+ {q:"Unsa ang tawag sa tradisyonal nga pan de sal?",options:["Pandesal","Baguette","Pancho","Loaf"],answer:"Pandesal"},
+ {q:"Unsa ang tawag sa festival sa Kalibo?",options:["Sinulog","Ati-Atihan","Pahiyas","MassKara"],answer:"Ati-Atihan"},
+ {q:"Kinsa ang national hero nga usa ka doktor?",options:["Rizal","Bonifacio","Aguinaldo","Lapu-Lapu"],answer:"Rizal"},
+ {q:"Unsa ang tawag sa tradisyonal nga bata nga gigamit sa fiesta?",options:["Parol","Belen","Kandila","Palaspas"],answer:"Parol"},
+ {q:"Unsa ang kilalang tradisyon sa Simbang Gabi?",options:["Pasko","Semana Santa","Sinulog","Pahiyas"],answer:"Pasko"},
+ {q:"Unsa ang tawag sa tradisyonal nga damit sa Pilipina?",options:["Baro't Saya","Kimono","Cheongsam","Hanbok"],answer:"Baro't Saya"},
+ {q:"Unsa ang tradisyon sa pagdaug sa pista pinaagi sa maskara?",options:["MassKara","Sinulog","Ati-Atihan","Pahiyas"],answer:"MassKara"},
+ {q:"Unsa ang national fruit sa Pilipinas?",options:["Mango","Banana","Apple","Durian"],answer:"Mango"},
+ {q:"Unsa ang tawag sa tradisyonal nga kasal sa Pilipinas?",options:["Kasal","Wedding","Marriage","Seremony"],answer:"Kasal"},
+ {q:"Kinsa ang kilalang Pilipinong sundalo ug bayani sa panahon sa Digmaang Pilipino-Amerikano?",options:["Rizal","Bonifacio","Aguinaldo","Lapu-Lapu"],answer:"Bonifacio"},
+ {q:"Unsa ang tawag sa tradisyonal nga bangka sa Pilipinas?",options:["Bangka","Canoe","Sampan","Boat"],answer:"Bangka"}
 ];
-while(questions.length < 100){
-  questions.push(questions[Math.floor(Math.random()*5)]);
-}
 
 function loadQuestion(){
   if(current >= questions.length){
