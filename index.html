@@ -1,17 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>My Website</title>
-<link rel="stylesheet" href="style.css">
-<link rel="icon" href="favicon.ico" type="image/x-icon">
+<title>Jimmy Caermare Mind Games</title>
+<style>
+body{font-family:Arial;margin:0;background:linear-gradient(135deg,#ff9a9e,#fad0c4);color:#333;text-align:center;transition:background 0.5s;overflow-x:hidden}
+.container{max-width:500px;margin:auto;padding:20px}
+.card{background:#fff;border-radius:15px;padding:20px;box-shadow:0 4px 10px rgba(0,0,0,0.2)}
+h1{color:#fff}
+button{display:block;width:100%;margin:10px 0;padding:12px;border:none;border-radius:10px;background:#ff758c;color:#fff;font-size:16px}
+button:hover{background:#ff5252}
+#resultPopup{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:30px;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.3);z-index:9999;text-align:center}
+#resultPopup h2{margin-bottom:10px}
+#resultPopup p{margin:5px 0}
+.confetti-piece{position:fixed;width:10px;height:10px;background:yellow;opacity:0.9;z-index:9998;pointer-events:none}
+#overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9997}
+</style>
 </head>
 <body>
-<main>
-<h1>Welcome to My Website</h1>
-</main>
-<script src="index.js"></script>
+<h1>🧠 JIMMY CAERMARE MIND GAMES</h1>
+<div class="container">
+<div class="card">
+<h2 id="question">Loading...</h2>
+<div id="answers"></div>
+<p>Score: <span id="score">0</span></p>
+</div>
+</div>
+
+<div id="overlay"></div>
+<div id="resultPopup">
+<h2>Quiz Finished!</h2>
+<p id="scorePopup"></p>
+<p id="greetingPopup"></p>
+<button onclick="closePopup()">Close</button>
+</div>
+
+<script>
+let score = 0;
+let current = 0;
+
+// Bisaya questions about Philippine culture
+let questions = [
+ {q:"Unsa ang national language sa Pilipinas?",options:["Filipino","English","Bisaya","Ilocano"],answer:"Filipino"},
+ {q:"Unsa ang tawag sa pista sa Cebu?",options:["Ati-Atihan","Sinulog","MassKara","Pahiyas"],answer:"Sinulog"},
+ {q:"Kinsa ang bayani sa Pilipinas nga nag sulat sa Noli Me Tangere?",options:["Bonifacio","Rizal","Aguinaldo","Lapu-Lapu"],answer:"Rizal"},
+ {q:"Unsa ang tradisyon kung mag bless sa kamot sa tigulang?",options:["Mano","Beso","Saludo","Apo"],answer:"Mano"},
+ {q:"Unsa ang tawag sa balay nga kawayan ug nipa?",options:["Bahay Kubo","Bungalow","Villa","Apartment"],answer:"Bahay Kubo"}
+];
+while(questions.length < 100){
+  questions.push(questions[Math.floor(Math.random()*5)]);
+}
+
+function loadQuestion(){
+  if(current >= questions.length){
+    document.getElementById('question').innerText = "Quiz Finished!";
+    document.getElementById('answers').innerHTML = "";
+    document.body.style.background = "linear-gradient(135deg,#00c9ff,#92fe9d)";
+
+    // Grading system
+    let grade = '';
+    let percentage = (score / questions.length) * 100;
+    if(percentage >= 90) grade = 'A';
+    else if(percentage >= 80) grade = 'B';
+    else if(percentage >= 70) grade = 'C';
+    else if(percentage >= 60) grade = 'D';
+    else grade = 'F';
+
+    // Greetings
+    let greeting = '';
+    if(grade === 'A') greeting = '🎉 Maayo kaayo! Padayon sa pagkat-on!';
+    else if(grade === 'B') greeting = '👍 Maayo! Ayaw kalimot sa pagpraktis!';
+    else if(grade === 'C') greeting = '🙂 Okay ra! Pwede pa nimo mapalambo!';
+    else if(grade === 'D') greeting = '😐 Kinahanglan pa ug dugang praktis.';
+    else greeting = '😞 Ayaw kawala ug paglaum, sugdi usab!';
+
+    // Show popup
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('resultPopup').style.display = 'block';
+    document.getElementById('scorePopup').innerText = `Score: ${score}/${questions.length} (${percentage.toFixed(1)}%) - Grade: ${grade}`;
+    document.getElementById('greetingPopup').innerText = greeting;
+
+    if(grade === 'A') launchConfetti();
+
+    return;
+  }
+  let q = questions[current];
+  document.getElementById('question').innerText = q.q;
+  let html = "";
+  q.options.forEach(opt => {
+    html += `<button onclick="check('${opt}')">${opt}</button>`;
+  });
+  document.getElementById('answers').innerHTML = html;
+}
+
+function check(ans){
+  if(ans === questions[current].answer){
+    score++;
+  }
+  document.getElementById('score').innerText = score;
+  current++;
+  loadQuestion();
+}
+
+function launchConfetti(){
+  for(let i=0;i<150;i++){
+    let confetti = document.createElement('div');
+    confetti.classList.add('confetti-piece');
+    confetti.style.backgroundColor = `hsl(${Math.random()*360},100%,50%)`;
+    confetti.style.left = Math.random()*window.innerWidth+'px';
+    confetti.style.top = Math.random()*-50+'px';
+    confetti.style.width = confetti.style.height = Math.random()*10+5+'px';
+    document.body.appendChild(confetti);
+    let fall = setInterval(()=>{
+      let top = parseFloat(confetti.style.top);
+      if(top>window.innerHeight){ confetti.remove(); clearInterval(fall); }
+      else confetti.style.top = top + 5 + 'px';
+    },30);
+  }
+}
+
+function closePopup(){
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('resultPopup').style.display = 'none';
+}
+
+loadQuestion();
+</script>
 </body>
 </html>
